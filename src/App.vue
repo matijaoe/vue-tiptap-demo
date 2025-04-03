@@ -13,19 +13,21 @@ const content = ref<string>(/*html*/ `<p>Hello from the editor</p>`)
 
     <div class="@container/grid h-screen overflow-hidden">
       <div
-        class="grid grid-rows-[1fr_1fr] @lg/grid:grid-cols-2 @lg/grid:grid-rows-1 h-full overflow-y-auto"
+        class="grid grid-rows-[1fr_1fr] @lg/grid:grid-cols-2 @lg/grid:grid-rows-1 h-full overflow-y-auto border-l border-zinc-200"
       >
-        <div class="p-4 border-l border-l-zinc-200 bg-zinc-50">
-          <span class="font-medium">Content:</span>
-          <div class="mt-2">
-            {{ content }}
-          </div>
-        </div>
-
-        <div class="border-l border-zinc-200 p-4 bg-zinc-100 overflow-y-auto">
+        <div class="p-4 bg-zinc-50 overflow-y-auto">
           <span class="font-medium">Rendered content:</span>
           <div class="mt-2">
             <div v-html="content" class="prose prose-p:my-0"></div>
+          </div>
+        </div>
+
+        <div
+          class="p-4 border-t border-zinc-200 @lg/grid:border-l @lg/grid:border-t-0 bg-zinc-100 overflow-y-auto"
+        >
+          <span class="font-medium">HTML content:</span>
+          <div class="mt-2">
+            {{ content }}
           </div>
         </div>
       </div>
