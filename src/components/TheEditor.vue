@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col">
+  <div class="h-full flex flex-col gap-4">
     <menu class="flex items-center gap-2">
       <button
         @click="toggleEditable"
@@ -21,16 +21,19 @@
       </span>
     </menu>
 
-    <EditorContent class="flex-1 mt-4" :editor="editor" />
+    <EditorContent class="flex-1" :editor />
   </div>
 </template>
 
 <script lang="ts" setup>
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { onKeyStroke } from '@vueuse/core'
 import { isEqual } from 'es-toolkit'
 import { ref, watch } from 'vue'
+import { VueComponent } from './CounterExtension'
 
 const modelValue = defineModel<string>({
   default: '',
@@ -42,42 +45,48 @@ const isFocused = ref(false)
 
 const editor = useEditor({
   content: modelValue.value,
-  extensions: [StarterKit],
+  extensions: [
+    StarterKit,
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
+    VueComponent,
+  ],
   onUpdate: ({ editor }) => {
     modelValue.value = editor.getHTML()
   },
   editorProps: {
     attributes: {
-      class: 'prose focus:outline-none prose-p:my-0 h-full',
+      class: 'prose prose-p:my-0 h-full focus:outline-none',
+    },
+    handleKeyDown: (_editorView, evt) => {
+      if (evt.key === 'Escape') {
+        editor.value?.commands.blur()
+      }
     },
   },
   onFocus: () => {
     editor.value?.commands.focus('end')
-    isFocused.value = true
   },
-  onBlur: () => {
-    isFocused.value = false
-  },
+  onBlur: () => {},
   autofocus: false,
   editable: isEditable.value,
-})
-
-onKeyStroke('Escape', () => {
-  if (editor.value?.isFocused) {
-    editor.value?.commands.blur()
-  }
+  onTransaction: ({ editor }) => {
+    isFocused.value = editor.isFocused
+    // Doesn't seem that useful if we have to manually set it on toggleEditable anyway
+    isEditable.value = editor.isEditable
+  },
 })
 
 const toggleEditable = () => {
   const newEditable = !isEditable.value
-  editor.value?.setEditable(newEditable, false)
+  editor.value?.setEditable(newEditable)
   isEditable.value = newEditable
 
   if (newEditable) {
     editor.value?.commands.focus('end')
   }
-
-  console.log('[focused]', editor.value?.isFocused)
 }
 
 watch(modelValue, (value) => {
