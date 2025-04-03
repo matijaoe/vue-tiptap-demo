@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col gap-4">
+  <div class="h-full flex flex-col gap-4 pb-10">
     <menu class="flex items-center gap-2">
       <button
         @click="toggleEditable"
@@ -58,7 +58,7 @@ const editor = useEditor({
   },
   editorProps: {
     attributes: {
-      class: 'prose prose-p:my-0 h-full focus:outline-none',
+      class: 'prose prose-p:my-0 focus:outline-none h-full pb-5',
     },
     handleKeyDown: (_editorView, evt) => {
       if (evt.key === 'Escape') {
