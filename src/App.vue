@@ -8,21 +8,21 @@ const content = ref(demoContent)
 
 <template>
   <main class="grid grid-cols-2 h-screen overflow-hidden">
-    <div class="overflow-y-auto h-full">
+    <div class="overflow-y-auto custom-scrollbar h-full">
       <TheEditor v-model="content" class="p-5 max-w-3xl mx-auto" />
     </div>
 
     <div class="@container/grid h-full overflow-hidden">
       <div
-        class="grid grid-rows-[1fr_1fr] @lg/grid:grid-cols-2 @lg/grid:grid-rows-1 h-full overflow-y-auto border-l border-zinc-200"
+        class="grid grid-rows-[1fr_1fr] @lg/grid:grid-cols-2 @lg/grid:grid-rows-1 h-full border-l border-zinc-200"
       >
-        <div class="p-4 bg-zinc-50 overflow-y-auto space-y-2">
+        <div class="p-4 bg-zinc-50 overflow-y-auto custom-scrollbar">
           <span class="font-medium">Rendered content:</span>
           <div v-html="content" class="prose prose-p:my-0 mt-3"></div>
         </div>
 
         <div
-          class="p-4 border-t border-zinc-200 @lg/grid:border-l @lg/grid:border-t-0 bg-zinc-100 overflow-y-auto"
+          class="p-4 border-t border-zinc-200 @lg/grid:border-l @lg/grid:border-t-0 bg-zinc-100 overflow-y-auto custom-scrollbar"
         >
           <span class="font-medium">Raw HTML content:</span>
           <div class="mt-3 font-mono">
@@ -64,6 +64,32 @@ const content = ref(demoContent)
     ul[data-type='taskList'] {
       margin: 0;
     }
+  }
+}
+
+.custom-scrollbar {
+  --thumb-bg: #d4d4d8; /* zinc-300 */
+
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 300ms;
+
+  &:hover {
+    scrollbar-color: var(--thumb-bg) transparent;
+  }
+
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    transition: background 300ms;
+    background: var(--thumb-bg);
   }
 }
 </style>
