@@ -44,5 +44,5 @@ export const demoContent = /*html*/ `
       </div>
    </li>
 </ul>
-<vuecomponent count="0"></vuecomponent>
+<vue-component count="0"></vue-component>
 `

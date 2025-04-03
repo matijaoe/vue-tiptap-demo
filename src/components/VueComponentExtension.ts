@@ -1,7 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 
-import Component from './Counter.vue'
+import Component from './VueComponent.vue'
 
 export const VueComponent = Node.create({
   name: 'vueComponent',
@@ -21,13 +21,13 @@ export const VueComponent = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'VueComponent',
+        tag: 'vue-component',
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['VueComponent', mergeAttributes(HTMLAttributes)]
+    return ['vue-component', mergeAttributes(HTMLAttributes)]
   },
 
   addNodeView() {

@@ -18,7 +18,9 @@ const content = ref(demoContent)
       >
         <div class="p-4 bg-zinc-50 overflow-y-auto custom-scrollbar">
           <span class="font-medium">Rendered content:</span>
-          <div v-html="content" class="prose prose-p:my-0 mt-3"></div>
+          <div class="mt-3">
+            <div v-html="content" class="prose prose-p:my-0 prose-ul:mt-2 prose-li:my-0"></div>
+          </div>
         </div>
 
         <div
@@ -35,6 +37,11 @@ const content = ref(demoContent)
 </template>
 
 <style lang="postcss">
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 .prose {
   /* Task list specific styles */
   ul[data-type='taskList'] {
